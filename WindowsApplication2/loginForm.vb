@@ -7,7 +7,6 @@ Public Class loginForm
     Dim Conn As New SqlConnection
     Dim mycomm As New SqlCommand
     Dim myDR As SqlDataReader
-    Dim username, password, name, surname, status As String
     Private Sub conDB()
         If Conn.State = ConnectionState.Open Then
             Conn.Close()
@@ -25,25 +24,33 @@ Public Class loginForm
         mycomm.Parameters.AddWithValue("username", txtUsername.Text)
         mycomm.Parameters.AddWithValue("password", txtPassword.Text)
         myDR = mycomm.ExecuteReader
-        myDR.Read()
         If myDR.HasRows Then
+            myDR.Read()
+            empid = myDR.Item("empId")
             username = myDR.Item("empUsername")
             password = myDR.Item("empPassword")
-            name = myDR.Item("empName")
-            status = myDR.Item("empstatus")
+            Name = myDR.Item("empName")
+            Status = myDR.Item("empstatus")
             surname = myDR.Item("empSurname")
-            MessageBox.Show("ยินดีต้อยรับคุณ " + name + "  " + surname + " เข้าสู่ระบบ", "เตือน!", MessageBoxButtons.OK)
+            MessageBox.Show("ยินดีต้อยรับคุณ " + Name + "  " + surname + " เข้าสู่ระบบ", "เตือน!", MessageBoxButtons.OK)
+            empName = "" + Name + Space(2) + surname + ""
+            myDR.Close()
+            Conn.Close()
             Me.Close()
         Else
             MessageBox.Show("Username หรือ Password ไม่ถูกต้อง กรุณาตรวจสอบใหม่ด้วยค่ะ", "เตือน!", MessageBoxButtons.OK)
             txtUsername.Clear()
             txtPassword.Clear()
-          
+            txtUsername.Focus()
+            myDR.Close()
+            Conn.Close()
+            Exit Sub
         End If
-        myDR.Close()
-    End Sub
-
-    Private Sub loginForm_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
 
     End Sub
+
+    Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
+        Me.Close()
+    End Sub
+
 End Class

@@ -50,11 +50,13 @@ Public Class InserteCar
         dgvDataCar.Columns(2).HeaderCell.Value = "เลขตัวถัง"
         dgvDataCar.Columns(3).HeaderCell.Value = "ราคา/วัน"
         dgvDataCar.Columns(4).Visible = False
-        dgvDataCar.Columns(0).Width = 100
-        dgvDataCar.Columns(1).Width = 100
-        dgvDataCar.Columns(2).Width = 100
-        dgvDataCar.Columns(3).Width = 100
+        dgvDataCar.Columns(5).Visible = False
+        dgvDataCar.Columns(0).Width = 150
+        dgvDataCar.Columns(1).Width = 200
+        dgvDataCar.Columns(2).Width = 300
+        dgvDataCar.Columns(3).Width = 200
         Conn.Close()
+
     End Sub
 
     Private Sub InserteCar_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
@@ -67,7 +69,9 @@ Public Class InserteCar
 
     Private Sub btnInserte_Click(sender As System.Object, e As System.EventArgs) Handles btnInserte.Click
         gpbData.Enabled = True
-        txtCColor.Clear()
+        Label2.Visible = False
+        lblStatus.Visible = False
+        cboColor.SelectedIndex = 0
         txtCId.Clear()
         txtCNumber.Clear()
         txtCPrice.Clear()
@@ -84,21 +88,33 @@ Public Class InserteCar
         btnEdit.Enabled = True
         btnDelete.Enabled = True
         conDB()
-        strSql = "SELECT tbCars.*,tbGen.gName from tbCars,tbGen where tbCars.gId=tbGen.gId and tbCars.cLicense=@License"
+        strSql = "SELECT tbCars.*,tbGen.gName from tbCars,tbGen where tbCars.gId=tbGen.gId and tbCars.Cr_Id=@Cr_Id"
         mycomm = New SqlCommand(strSql, Conn)
         mycomm.CommandType = CommandType.Text
         mycomm.CommandTimeout = 15
-        mycomm.Parameters.AddWithValue("@License", Carid)
+        mycomm.Parameters.AddWithValue("@Cr_Id", Carid)
         myDR = mycomm.ExecuteReader
         myDR.Read()
-        txtCId.Text = myDR.Item("cLicense")
-        txtCPrice.Text = myDR.Item("cPrice")
-        txtCColor.Text = myDR.Item("cColor")
-        txtCNumber.Text = myDR.Item("cNumber")
+        txtCId.Text = myDR.Item("Cr_Id")
+        txtCPrice.Text = myDR.Item("Cr_Price")
+        cboColor.SelectedItem = myDR.Item("Cr_Color")
+        txtCNumber.Text = myDR.Item("Cr_Number")
         cboGen.SelectedItem = myDR.Item("gName")
+
+        If myDR.Item("Cr_Amount") = 1 Then
+            lblStatus.Text = "พร้อมให้เช่า"
+            lblStatus.ForeColor = Color.Green
+        Else
+
+            lblStatus.Text = "กำลังเช่า"
+            lblStatus.ForeColor = Color.Yellow
+        End If
     End Sub
 
     Private Sub btnEdit_Click(sender As System.Object, e As System.EventArgs) Handles btnEdit.Click
+        lblStatus.Visible = False
+        Label2.Visible = False
+        Label2.Visible = False
         dgvDataCar.Enabled = False
         gpbData.Enabled = True
         txtCId.Focus()
@@ -115,9 +131,8 @@ Public Class InserteCar
 
         txtCId.Text = txtCId.Text.Trim()
         txtCNumber.Text = txtCNumber.Text.Trim()
-        txtCColor.Text = txtCColor.Text.Trim()
         txtCPrice.Text = txtCPrice.Text.Trim()
-        If txtCColor.Text = "" Or txtCId.Text = "" Or txtCNumber.Text = "" Or txtCPrice.Text = "" Then
+        If txtCId.Text = "" Or txtCNumber.Text = "" Or txtCPrice.Text = "" Then
             MessageBox.Show("ท่านป้อนข้อมูลไม่สมบูรณ์" & Chr(10) & "กรุณาตรวจสอบและแก้ไขให้ถูกต้อง", "ข้อมูลไม่สมบูรณ์", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             txtCId.Focus()
             Exit Sub
@@ -141,7 +156,7 @@ Public Class InserteCar
 
             If userAct = "Insert" Then 'เพิ่ม
                 'เช็ค PK
-                strSql = "select * from tbCars where cLicense = @Cid "
+                strSql = "select * from tbCars where Cr_Id = @Cid "
                 mycomm = New SqlCommand(strSql, Conn)
                 mycomm.CommandType = CommandType.Text
                 mycomm.CommandTimeout = 15
@@ -153,16 +168,17 @@ Public Class InserteCar
                     Exit Sub
                 End If
                 myDR.Close()
-                strSql = "Insert into tbCars(cLicense, cColor, cNumber, cPrice, gId) " & _
-                    " Values(@cLicense, @cColor, @cNumber, @cPrice, @gId)  "
+                strSql = "Insert into tbCars(Cr_Id, Cr_Color, Cr_Number, Cr_Price, gId,Cr_Amount) " & _
+                    " Values(@cLicense, @cColor, @cNumber, @cPrice, @gId,@Amount)  "
                 mycomm = New SqlCommand(strSql, Conn)
                 mycomm.CommandType = CommandType.Text
                 mycomm.CommandTimeout = 15
                 mycomm.Parameters.AddWithValue("cLicense", txtCId.Text)
-                mycomm.Parameters.AddWithValue("cColor", txtCColor.Text)
+                mycomm.Parameters.AddWithValue("cColor", cboColor.SelectedItem)
                 mycomm.Parameters.AddWithValue("cNumber", txtCNumber.Text)
                 mycomm.Parameters.AddWithValue("cPrice", txtCPrice.Text)
                 mycomm.Parameters.AddWithValue("gId", gId)
+                mycomm.Parameters.AddWithValue("Amount", "1")
                 mycomm.ExecuteNonQuery()
                 Call LoadData()
                 Call btnCancel_Click(sender, e)
@@ -170,7 +186,7 @@ Public Class InserteCar
             Else 'แก้ไข 
                 If oldcID <> txtCId.Text Then 'มีการเปลี่ยนแปลงรหัสพนักงาน
                     'เช็ค PK
-                    strSql = "select cLicense from tbCars where cLicense = @cId "
+                    strSql = "select Cr_Id from tbCars where Cr_Id = @cId "
                     mycomm = New SqlCommand(strSql, Conn)
                     mycomm.CommandType = CommandType.Text
                     mycomm.CommandTimeout = 15
@@ -182,16 +198,17 @@ Public Class InserteCar
                     End If
                     myDR.Close()
                 End If
-                strSql = "Update tbCars Set cLicense = @gidcLicense cColor=@cColor, cNumber=@cNumber,cPrice=@cPrice, gId=@gId where cLicense = @ocid"
+                strSql = "Update tbCars Set Cr_Id = @cLicense,Cr_Color=@cColor, Cr_Number=@cNumber,Cr_Price=@cPrice, gId=@gId,Cr_Amount=@Amount where Cr_Id = @ocid"
 
                 mycomm = New SqlCommand(strSql, Conn)
                 mycomm.CommandType = CommandType.Text
                 mycomm.CommandTimeout = 15
-                 mycomm.Parameters.AddWithValue("cLicense", txtCId.Text)
-                mycomm.Parameters.AddWithValue("cColor", txtCColor.Text)
+                mycomm.Parameters.AddWithValue("cLicense", txtCId.Text)
+                mycomm.Parameters.AddWithValue("cColor", cboColor.SelectedItem)
                 mycomm.Parameters.AddWithValue("cNumber", txtCNumber.Text)
                 mycomm.Parameters.AddWithValue("cPrice", txtCPrice.Text)
                 mycomm.Parameters.AddWithValue("gId", gId)
+                mycomm.Parameters.AddWithValue("Amount", "1")
                 mycomm.Parameters.AddWithValue("ocid", oldcID)
                 mycomm.ExecuteNonQuery()
                 Call LoadData()
@@ -203,11 +220,13 @@ Public Class InserteCar
 
     Private Sub btnCancel_Click(sender As System.Object, e As System.EventArgs) Handles btnCancel.Click
         gpbData.Enabled = False
-
+        lblStatus.Visible = True
+        Label2.Visible = True
         btnInserte.Enabled = True
         btnEdit.Enabled = True
         btnDelete.Enabled = True
         btnClose.Enabled = True
+        dgvDataCar.Enabled = True
     End Sub
 
     Private Sub btnDelete_Click(sender As System.Object, e As System.EventArgs) Handles btnDelete.Click
@@ -215,7 +234,7 @@ Public Class InserteCar
         dgr = MessageBox.Show("โปรดยืนยันการลบข้อมูลสินค้า รหัส: " & txtCId.Text, "โปรดระวัง..", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2)
         If dgr = Windows.Forms.DialogResult.Yes Then
             conDB()
-            strSql = "Delete From tbCars where cLicense = @cId "
+            strSql = "Delete From tbCars where Cr_Id = @cId "
             mycomm = New SqlCommand(strSql, Conn)
             mycomm.CommandType = CommandType.Text
             mycomm.CommandTimeout = 15
@@ -231,5 +250,13 @@ Public Class InserteCar
 
     Private Sub btnClose_Click(sender As System.Object, e As System.EventArgs) Handles btnClose.Click
         Me.Close()
+    End Sub
+
+    Private Sub gpbData_Enter(sender As System.Object, e As System.EventArgs) Handles gpbData.Enter
+
+    End Sub
+
+    Private Sub dgvDataCar_CellContentClick_1(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvDataCar.CellContentClick
+
     End Sub
 End Class

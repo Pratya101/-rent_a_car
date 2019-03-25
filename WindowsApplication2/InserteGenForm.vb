@@ -72,10 +72,10 @@ Public Class InserteGenForm
         dgvDataGen.Columns(3).HeaderCell.Value = "ความจุถังน้ำมัน"
         dgvDataGen.Columns(4).HeaderCell.Value = "ปีที่ผลิต"
         dgvDataGen.Columns(0).Width = 100
-        dgvDataGen.Columns(1).Width = 100
-        dgvDataGen.Columns(2).Width = 100
-        dgvDataGen.Columns(3).Width = 100
-        dgvDataGen.Columns(4).Width = 100
+        dgvDataGen.Columns(1).Width = 200
+        dgvDataGen.Columns(2).Width = 200
+        dgvDataGen.Columns(3).Width = 150
+        dgvDataGen.Columns(4).Width = 150
         Conn.Close()
     End Sub
     Private Sub InserteGenForm_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
@@ -92,6 +92,7 @@ Public Class InserteGenForm
         gboData.Enabled = True
         txtGId.Clear()
         txtGName.Clear()
+        txtGId.Focus()
         cboSize.SelectedIndex = 0
         cboType.SelectedIndex = 0
         cboYear.SelectedIndex = 0
@@ -113,7 +114,6 @@ Public Class InserteGenForm
         Else
             'บันทึก 
             Dim Gear As String
-            Dim depID As String
             Dim bId, tId As String
 
             If radAoto.Checked Then

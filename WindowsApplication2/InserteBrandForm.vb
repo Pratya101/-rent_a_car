@@ -32,38 +32,18 @@ Public Class InserteBrandForm
         dgvDataBrand.DataSource = ds.Tables("tbDataBrand")
         dgvDataBrand.Columns(0).HeaderCell.Value = "รหัสยี่ห้อ"
         dgvDataBrand.Columns(1).HeaderCell.Value = "ชื่อยี่ห้อ"
-        dgvDataBrand.Columns(0).Width = 100
-        dgvDataBrand.Columns(1).Width = 200
+        dgvDataBrand.Columns(0).Width = 400
+        dgvDataBrand.Columns(1).Width = 400
     End Sub
 
     Private Sub btnInserte_Click(sender As System.Object, e As System.EventArgs) Handles btnInserte.Click
         gboData.Enabled = True
         txtBid.Clear()
         txtBName.Clear()
+        txtBid.Focus()
         userAct = "Insert"
-    End Sub
 
-    Private Sub dgvDataBrand_CellEnter(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvDataBrand.CellEnter
-        If dgvDataBrand.RowCount = 0 Or dgvDataBrand.SelectedRows.Count = 0 Then
-            Exit Sub
-        End If
-        Dim r As Integer = dgvDataBrand.CurrentCell.RowIndex
-        Dim eid As String = dgvDataBrand.Item(0, r).Value
-        btnEdit.Enabled = True
-        btnDelete.Enabled = True
-        conDB()
-        strSql = "SELECT * from tbBrand where bId=@eid"
-        mycomm = New SqlCommand(strSql, Conn)
-        mycomm.CommandType = CommandType.Text
-        mycomm.CommandTimeout = 15
-        mycomm.Parameters.AddWithValue("@eid", eid)
-        myDR = mycomm.ExecuteReader
-        myDR.Read()
-        txtBid.Text = myDR.Item("bId")
-        txtBName.Text = myDR.Item("bName")
-        myDR.Close()
     End Sub
-
     Private Sub btnSave_Click(sender As System.Object, e As System.EventArgs) Handles btnSave.Click
         txtBid.Text = txtBid.Text.Trim()
         txtBName.Text = txtBName.Text.Trim()
@@ -170,4 +150,26 @@ Public Class InserteBrandForm
     Private Sub btnClose_Click(sender As System.Object, e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+    Private Sub dgvDataBrand_CellContentClick(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvDataBrand.CellEnter
+        If dgvDataBrand.RowCount = 0 Or dgvDataBrand.SelectedRows.Count = 0 Then
+            Exit Sub
+        End If
+        Dim r As Integer = dgvDataBrand.CurrentCell.RowIndex
+        Dim eid As String = dgvDataBrand.Item(0, r).Value
+        btnEdit.Enabled = True
+        btnDelete.Enabled = True
+        conDB()
+        strSql = "SELECT * from tbBrand where bId=@eid"
+        mycomm = New SqlCommand(strSql, Conn)
+        mycomm.CommandType = CommandType.Text
+        mycomm.CommandTimeout = 15
+        mycomm.Parameters.AddWithValue("@eid", eid)
+        myDR = mycomm.ExecuteReader
+        myDR.Read()
+        txtBid.Text = myDR.Item("bId")
+        txtBName.Text = myDR.Item("bName")
+        myDR.Close()
+
+    End Sub
+
 End Class

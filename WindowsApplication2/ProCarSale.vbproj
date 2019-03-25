@@ -14,7 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -24,7 +25,9 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ProCarSale.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -34,7 +37,9 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>ProCarSale.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -49,11 +54,18 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -73,6 +85,56 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Customers.designer.vb">
+      <DependentUpon>Customers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Customers.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dtSale.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dtSale.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dtSale.vb">
+      <DependentUpon>dtSale.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Employee.designer.vb">
+      <DependentUpon>Employee.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Employee.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaleBill.Designer.vb">
+      <DependentUpon>frmSaleBill.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSaleBill.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyBill.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyBill.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReciveForm.Designer.vb">
+      <DependentUpon>ReciveForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ReciveForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectCar.Designer.vb">
+      <DependentUpon>SelectCar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SelectCar.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HireForm.Designer.vb">
+      <DependentUpon>HireForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HireForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="InserteBrandForm.Designer.vb">
       <DependentUpon>InserteBrandForm.vb</DependentUpon>
     </Compile>
@@ -125,14 +187,30 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="EmployeeForm.Designer.vb">
-      <DependentUpon>EmployeeForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="EmployeeForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Customers.resx">
+      <DependentUpon>Customers.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Employee.resx">
+      <DependentUpon>Employee.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSaleBill.resx">
+      <DependentUpon>frmSaleBill.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyBill.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MyBill.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReciveForm.resx">
+      <DependentUpon>ReciveForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectCar.resx">
+      <DependentUpon>SelectCar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HireForm.resx">
+      <DependentUpon>HireForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InserteBrandForm.resx">
       <DependentUpon>InserteBrandForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -157,12 +235,21 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="EmployeeForm.resx">
-      <DependentUpon>EmployeeForm.vb</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="dtSale.xsc">
+      <DependentUpon>dtSale.xsd</DependentUpon>
+    </None>
+    <None Include="dtSale.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dtSale.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="dtSale.xss">
+      <DependentUpon>dtSale.xsd</DependentUpon>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -174,8 +261,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Actions-list-add-user-icon.png" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

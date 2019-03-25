@@ -7,7 +7,7 @@ Public Class InserteTypeForm
     Dim Conn As New SqlConnection
     Dim mycomm As New SqlCommand
     Dim myDR As SqlDataReader
-    Dim userAct, chkTId As String
+    Dim userAct, chkTId, s As String
     Private Sub conDB()
         If Conn.State = ConnectionState.Open Then
             Conn.Close()
@@ -26,8 +26,8 @@ Public Class InserteTypeForm
         dgvDataType.DataSource = ds.Tables("tbDataType")
         dgvDataType.Columns(0).HeaderCell.Value = "รหัสประเภท"
         dgvDataType.Columns(1).HeaderCell.Value = "ชื่อประเภท"
-        dgvDataType.Columns(0).Width = 100
-        dgvDataType.Columns(1).Width = 200
+        dgvDataType.Columns(0).Width = 400
+        dgvDataType.Columns(1).Width = 400
     End Sub
     Private Sub InserteTypeForm_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Call LoadData()
@@ -59,6 +59,7 @@ Public Class InserteTypeForm
         gboData.Enabled = True
         txtTId.Clear()
         txtTName.Clear()
+        txtTId.Focus()
         userAct = "Insert"
     End Sub
 
@@ -167,6 +168,4 @@ Public Class InserteTypeForm
         txtTId.Clear()
         txtTName.Clear()
     End Sub
-
-    
 End Class

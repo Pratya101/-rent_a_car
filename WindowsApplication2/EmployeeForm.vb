@@ -83,8 +83,12 @@ Public Class EmployeeForm
         txtEUser.Clear()
         txtEPrass.Clear()
         txtENumber.Clear()
+        txtEId.Focus()
         radEMen.Checked = False
         radEWomen.Checked = False
+        btnEdit.Enabled = False
+        btnDelete.Enabled = False
+        btnClose.Enabled = False
         userAct = "Insert"
     End Sub
 
@@ -183,7 +187,7 @@ Public Class EmployeeForm
                 mycomm.Parameters.AddWithValue("eTel", txtETel.Text)
                 mycomm.Parameters.AddWithValue("eusername", txtEUser.Text)
                 mycomm.Parameters.AddWithValue("epassword", txtEPrass.Text)
-                mycomm.Parameters.AddWithValue("estatus", "2")
+                mycomm.Parameters.AddWithValue("estatus", "employee")
                 mycomm.Parameters.AddWithValue("eSex", gender)
                 mycomm.Parameters.AddWithValue("eNumber", txtENumber.Text)
 
