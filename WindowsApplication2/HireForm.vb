@@ -54,7 +54,7 @@ Public Class HireForm
             lblSum.Text = "0"
             btnHOld.Enabled = True
             txtProId.Focus()
-        Else
+        Else 'บันทึก
             If lblNameCus.Text = "" Then
                 MessageBox.Show("ท่านยังไม่ได้เลือกลูกค้าสำหรับการขาย", "Error... ", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
@@ -111,10 +111,13 @@ Public Class HireForm
                     MessageBox.Show("บันทึกข้อมูลการขายเรียบร้อย...", "Success..", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Tran.Commit()
                     btnPrint.Enabled = True
-                    btnNewBill.Text = "เปิดบิลขายใหม่"
+                    btnNewBill.Text = "เปิดบิลเช่า"
                     btnCancel.Text = "ออก"
+                    dgvDataHire.Rows.Clear()
+                    lblNameCus.Text = ""
                     Panel1.Enabled = False
                     dgvDataHire.Enabled = False
+
                 Catch
                     MessageBox.Show("ไม่สามารถบันทึกข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบ...", "Error..", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Tran.Rollback()
@@ -340,6 +343,11 @@ Public Class HireForm
     End Sub
 
     Private Sub txtProId_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtProId.TextChanged
+
+    End Sub
+
+    Private Sub Panel1_Paint(sender As System.Object, e As System.Windows.Forms.PaintEventArgs) Handles Panel1.Paint
+
 
     End Sub
 End Class

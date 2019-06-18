@@ -68,7 +68,12 @@ Public Class InserteTypeForm
         gboData.Enabled = True
         txtTId.Enabled = True
         txtTName.Enabled = True
-        userAct = "Edit"
+        btnInserte.Enabled = False
+        btnEdit.Enabled = False
+        btnDelete.Enabled = False
+        btnClose.Enabled = False
+
+       userAct = "Edit"
     End Sub
 
     Private Sub btnDelete_Click(sender As System.Object, e As System.EventArgs) Handles btnDelete.Click

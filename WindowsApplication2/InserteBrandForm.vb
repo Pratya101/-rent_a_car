@@ -144,6 +144,10 @@ Public Class InserteBrandForm
         gboData.Enabled = True
         txtBid.Enabled = True
         txtBName.Enabled = True
+        btnClose.Enabled = False
+        btnDelete.Enabled = False
+        btnEdit.Enabled = False
+        btnInserte.Enabled = False
         userAct = "Edit"
     End Sub
 

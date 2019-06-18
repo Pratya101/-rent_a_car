@@ -42,8 +42,14 @@ Public Class SelectCar
     Private Sub btnSelect_Click(sender As System.Object, e As System.EventArgs) Handles btnSelect.Click
         Dim n As Integer
         n = dgvProduct.CurrentCell.RowIndex
-        sProID = dgvProduct.Item(0, n).Value
-        Me.Close()
+        If lblStatus.Text = "กำลังเช่า" Then
+            MessageBox.Show("รถคันนี้มีสถานะถูกเช้าอยู่ไม่สามารถเลือกได้", "Fail...", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        Else
+            sProID = dgvProduct.Item(0, n).Value
+
+            Me.Close()
+        End If
+
     End Sub
 
     Private Sub dgvProduct_CellDoubleClick(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvProduct.CellDoubleClick

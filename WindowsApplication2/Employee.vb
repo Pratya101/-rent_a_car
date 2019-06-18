@@ -69,6 +69,7 @@ Public Class EmployeeForm
         myDR.Close()
     End Sub
     Private Sub EmployeeForm_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+
         Call LoadData()
         gboData.Enabled = False
         btnDelete.Enabled = False
@@ -104,6 +105,10 @@ Public Class EmployeeForm
         txtETel.Enabled = True
         txtEUser.Enabled = True
         txtEPrass.Enabled = True
+        btnClose.Enabled = False
+        btnDelete.Enabled = False
+        btnEdit.Enabled = False
+        btnInserte.Enabled = False
         userAct = "Edit"
         oldEmpID = txtEId.Text
        
@@ -201,8 +206,6 @@ Public Class EmployeeForm
                 mycomm.Parameters.AddWithValue("estatus", "employee")
                 mycomm.Parameters.AddWithValue("eSex", gender)
                 mycomm.Parameters.AddWithValue("eNumber", txtENumber.Text)
-
-
                 mycomm.ExecuteNonQuery()
                 Call LoadData()
                 Call btnCancel_Click(sender, e)
@@ -233,7 +236,7 @@ Public Class EmployeeForm
                 mycomm.Parameters.AddWithValue("eTel", txtETel.Text)
                 mycomm.Parameters.AddWithValue("eusername", txtEUser.Text)
                 mycomm.Parameters.AddWithValue("epassword", txtEPrass.Text)
-                mycomm.Parameters.AddWithValue("estatus", "2")
+                mycomm.Parameters.AddWithValue("estatus", "employee")
                 mycomm.Parameters.AddWithValue("eSex", gender)
                 mycomm.Parameters.AddWithValue("eNumber", txtENumber.Text)
                 mycomm.Parameters.AddWithValue("eoid", oldEmpID)

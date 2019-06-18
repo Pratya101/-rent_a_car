@@ -53,4 +53,7 @@ Public Class loginForm
         Me.Close()
     End Sub
 
+    Private Sub loginForm_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

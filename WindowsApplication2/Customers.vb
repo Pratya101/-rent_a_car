@@ -163,6 +163,9 @@ Public Class Customers
         ElseIf Not IsNumeric(txtETel.Text) Or Not IsNumeric(txtENumber.Text) Then
             MessageBox.Show("ท่านป้อนข้อมูลไม่ถูกต้อง" & Chr(10) & "กรุณาตรวจสอบและแก้ไขให้ถูกต้อง", "ข้อมูลไม่สมบูรณ์", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
+    
+
+
         Else
             'บันทึก 
             Dim gender As String
